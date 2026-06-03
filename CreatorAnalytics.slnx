@@ -2,6 +2,6 @@
   <Folder Name="/src/">
     <Project Path="src/CreatorAnalytics.API/CreatorAnalytics.API.csproj" />
     <Project Path="src/CreatorAnalytics.Core/CreatorAnalytics.Core.csproj" />
-    <Project Path="src/CreatorAnalytics.Infrastructur/CreatorAnalytics.Infrastructure.csproj" />
+    <Project Path="src/CreatorAnalytics.Infrastructure/CreatorAnalytics.Infrastructure.csproj" />
   </Folder>
 </Solution>
