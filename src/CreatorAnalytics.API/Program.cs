@@ -1,4 +1,6 @@
+using CreatorAnalytics.Core.Interfaces;
 using CreatorAnalytics.Infrastructure.Data;
+using CreatorAnalytics.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ builder.Services.AddControllers();
 // 2. Configure Entity Framework Core to use SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IChannelRepository, ChannelRepository>();
 
 // 3. Add OpenAPI documentation 
 builder.Services.AddOpenApi();
