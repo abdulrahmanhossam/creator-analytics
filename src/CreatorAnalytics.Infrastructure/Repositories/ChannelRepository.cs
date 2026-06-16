@@ -7,7 +7,7 @@ namespace CreatorAnalytics.Infrastructure.Repositories;
 
 public class ChannelRepository : IChannelRepository
 {
-    private AppDbContext _dbContext;
+    private readonly AppDbContext _dbContext;
     public ChannelRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
