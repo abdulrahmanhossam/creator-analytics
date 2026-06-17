@@ -37,7 +37,7 @@ public class VideoRepository : IVideoRepository
 
     public async Task AddAsync(Video video)
     {
-        _dbContext.Videos.AddAsync(video);
+        await _dbContext.Videos.AddAsync(video);
         await _dbContext.SaveChangesAsync();
 
     }

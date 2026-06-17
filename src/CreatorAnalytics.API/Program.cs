@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IChannelRepository, ChannelRepository>();
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+builder.Services.AddScoped<IVideoAnalyticRepository, VideoAnalyticRepository>();
 
 // 3. Add OpenAPI documentation 
 builder.Services.AddOpenApi();

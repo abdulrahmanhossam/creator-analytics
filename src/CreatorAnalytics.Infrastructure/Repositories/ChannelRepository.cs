@@ -33,7 +33,7 @@ public class ChannelRepository : IChannelRepository
     }
     public async Task AddAsync(Channel channel)
     {
-        _dbContext.Channels.AddAsync(channel);
+        await _dbContext.Channels.AddAsync(channel);
         await _dbContext.SaveChangesAsync();
     }
 
