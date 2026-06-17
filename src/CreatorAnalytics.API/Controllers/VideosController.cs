@@ -10,9 +10,12 @@ namespace CreatorAnalytics.API.Controllers;
 public class VideosController : ControllerBase
 {
     private readonly IVideoRepository _videoRepository;
-    public VideosController(IVideoRepository videoRepository)
+    private readonly IVideoAnalyticRepository _analyticRepository;
+
+    public VideosController(IVideoRepository videoRepository, IVideoAnalyticRepository analyticRepository)
     {
         _videoRepository = videoRepository;
+        _analyticRepository = analyticRepository;
     }
 
     [HttpGet("{id:guid}")]
@@ -69,5 +72,24 @@ public class VideosController : ControllerBase
         };
 
         return CreatedAtAction(nameof(GetVideo), new { id = responseDto.Id }, responseDto);
+    }
+
+
+    [HttpPost("{videoId:guid}/analytics")]
+    public async Task<IActionResult> AddAnalytics(Guid videoId, [FromBody] CreateVideoAnalyticDto analyticDto)
+    {
+        var newAnalytics = new VideoAnalytic
+        {
+            VideoId = videoId,
+            RecordedAt = analyticDto.RecordedAt,
+            ViewCount = analyticDto.ViewCount,
+            LikeCount = analyticDto.LikeCount,
+            CommentCount = analyticDto.CommentCount,
+            AverageViewDurationSeconds = analyticDto.AverageViewDurationSeconds
+        };
+
+        await _analyticRepository.AddAsync(newAnalytics);
+
+        return Created();
     }
 }
