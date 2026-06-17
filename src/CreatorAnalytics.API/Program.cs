@@ -2,6 +2,7 @@ using CreatorAnalytics.Core.Interfaces;
 using CreatorAnalytics.Infrastructure.Data;
 using CreatorAnalytics.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
