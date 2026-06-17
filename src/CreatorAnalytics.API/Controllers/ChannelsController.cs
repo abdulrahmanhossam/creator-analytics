@@ -10,10 +10,12 @@ namespace CreatorAnalytics.API.Controllers;
 public class ChannelsController : ControllerBase
 {
     private readonly IChannelRepository _channelRepository;
+    private readonly IVideoAnalyticRepository _analyticRepository;
 
-    public ChannelsController(IChannelRepository channelRepository)
+    public ChannelsController(IChannelRepository channelRepository, IVideoAnalyticRepository analyticRepository)
     {
         _channelRepository = channelRepository;
+        _analyticRepository = analyticRepository;
     }
 
     [HttpGet("{id:guid}")]
@@ -32,6 +34,20 @@ public class ChannelsController : ControllerBase
         };
 
         return Ok(responseDto);
+    }
+
+    [HttpGet("{channelId:guid}/performance")]
+    public async Task<IActionResult> GetChannelPerformance(Guid channelId)
+    {
+        var channel = await _channelRepository.GetByIdAsync(channelId);
+        if (channel == null)
+        {
+            return NotFound("Channel not found.");
+        }
+
+        var performanceReport = await _analyticRepository.GetPerformanceAsync(channelId);
+
+        return Ok(performanceReport);
     }
 
     [HttpPost]
