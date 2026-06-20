@@ -1,6 +1,7 @@
 using CreatorAnalytics.API.DTOs;
 using CreatorAnalytics.Core.Entities;
 using CreatorAnalytics.Core.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CreatorAnalytics.API.Controllers;
@@ -11,11 +12,16 @@ public class ChannelsController : ControllerBase
 {
     private readonly IChannelRepository _channelRepository;
     private readonly IVideoAnalyticRepository _analyticRepository;
+    private readonly IValidator<CreateChannelDto> _validator;
 
-    public ChannelsController(IChannelRepository channelRepository, IVideoAnalyticRepository analyticRepository)
+    public ChannelsController(
+        IChannelRepository channelRepository,
+        IVideoAnalyticRepository analyticRepository,
+        IValidator<CreateChannelDto> validator)
     {
         _channelRepository = channelRepository;
         _analyticRepository = analyticRepository;
+        _validator = validator;
     }
 
     [HttpGet("{id:guid}")]
@@ -53,6 +59,11 @@ public class ChannelsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateChannel([FromBody] CreateChannelDto channelDto)
     {
+        var validationResult = await _validator.ValidateAsync(channelDto);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
         // 2. Map the DTO to the real Entity for the database
         var newChannel = new Channel
         {
